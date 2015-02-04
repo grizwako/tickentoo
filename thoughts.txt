@@ -1,0 +1,32 @@
+reply.author customer vs admin cascade with magento hooks and stuff?
+
+
+EXPORT COMMITS
+for /f "usebackq tokens=*" %A in (`git diff-tree -r --name-only af7d HEAD`) do echo FA|xcopy "%~fA" "C:\git_changed_files\%A"
+
+todo:
+Convert migrations in proper magento "cross platform way"
+Lots of TODOs in code
+Missing customer and website data in admin
+MY ACCOUNT.MY TICKETS add "unread items" counter
+Need to check what protection magento offers by default. sql attacks should be fine,
+what about client side vectors, XSS and friends?
+
+
+unimplemented features:
+1. support can configure email notifications:
+    for each customer reply
+    only for new ticket
+    new + watching
+    watching
+    ===
+    watching is flag that is set on ticket by admin/customer support
+
+2. customers should also get notifications
+    configurable in admin, by admin
+    if enabled: all
+                customers have checkbox which will subscribe them
+    if disabled, admin can tick send notification checkbox when replying in admin panel
+
+3. admins can add watchers to ticket, multi stage process where "original" customer has to agree
+    when ticket is updated, watchers are notified

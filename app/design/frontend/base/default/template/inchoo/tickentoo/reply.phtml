@@ -1,0 +1,53 @@
+<?php
+if ($this->getTicket() and $this->getTicket()->getClosed()){
+    $disabled = ' disabled="disabled" ';
+} else {
+    $disabled = '';
+}
+?>
+<form action="<?php echo $this->getFormAction(); ?>" id="<?php echo $this->getFormHtmlId(); ?>">
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->getFormTitle(); ?></h2>
+        <ul class="form-list">
+            <li class="fields">
+                <?php if(!$this->getTicket()){ ?>
+                <div class="field">
+                    <label for="subject" class="required">
+                        <em>*</em>
+                        <?php echo $this->__('Subject') ?>
+                    </label>
+                    <div class="input-box">
+                        <input name="subject" id="subject" title="Subject |REQUIRED"
+                               class="input-text required-entry" type="text" />
+                    </div>
+                </div>
+                <?php } ?>
+            </li>
+            <li class="fields">
+                <label for="message" class="required">
+                    <em>*</em>
+                    <?php echo $this->__('Message') ?>
+                </label>
+                    <div class="input-box">
+                        <textarea name="message" id="message" title="Message |REQUIRED"
+                            class="required-entry input-text"
+                            cols="1" rows="3"<?php echo $disabled; ?>></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+        <button type="submit" title="Submit yourself to master" class="button"
+            style="float: left !important;" <?php echo $disabled; ?>>
+            <span><span>
+                    <?php echo $this->__('Submit') ?>
+            </span></span>
+        </button>
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var ticketForm = new VarienForm('<?php echo $this->getFormHtmlId(); ?>', true);
+    //]]>
+</script>

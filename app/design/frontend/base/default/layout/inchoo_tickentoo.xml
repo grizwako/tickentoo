@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <!-- sidebar link in My Account pages -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" module="inchoo_tickentoo">
+                <name>tickentoo</name>
+                <path>tickentoo</path>
+                <label>My Tickets</label>
+            </action>
+        </reference>
+    </customer_account>
+    <tickentoo_index_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="inchoo_tickentoo/tickets" name="ticketreply" as="ticketreply"
+                   template="inchoo/tickentoo/reply.phtml"/>
+            <block type="inchoo_tickentoo/tickets" name="ticketlist" as="ticketlist"
+                   template="inchoo/tickentoo/list.phtml"/>
+        </reference>
+    </tickentoo_index_index>
+    <tickentoo_index_view>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="inchoo_tickentoo/tickets" name="viewticket" as="viewticket"
+                   template="inchoo/tickentoo/viewticket.phtml"/>
+            <block type="inchoo_tickentoo/tickets" name="ticketreply" as="ticketreply"
+                   template="inchoo/tickentoo/reply.phtml"/>
+        </reference>
+    </tickentoo_index_view>
+</layout>

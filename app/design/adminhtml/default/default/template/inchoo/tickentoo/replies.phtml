@@ -1,0 +1,7 @@
+<?php
+
+foreach($ticket->getReplies() as $reply){
+    echo '<div>['.$reply->getCreatedAt().'] '.$reply->getAuthorName().'</div>';
+    echo '<div>--> '.$reply->getMessage().'</div>';
+}
+

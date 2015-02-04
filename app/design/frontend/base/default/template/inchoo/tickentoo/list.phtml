@@ -1,0 +1,26 @@
+TICKET LIST:
+<br><br>
+
+<div style="max-width: 480px;">
+<?php
+foreach($this->getCustomerTickets() as $ticket){
+    if($this->getCustomerTickets()->getFirstItem() != $ticket){
+        echo '<hr>';
+    }
+
+    //view ticket link
+    echo '<a href="'.$this->getViewUrl($ticket).'">';
+    echo $ticket->getSubject();
+    echo '</a>';
+
+    //only give close link to open tickets
+    //closed tickets, customer must go and read "discussion" before opening
+    if(!$ticket->getClosed()){
+        echo '<a href="'.$this->getCloseUrl($ticket).'"
+            style="float:right;">';
+        echo $this->__('Close ticket');
+        echo '</a>';
+    }
+}
+?>
+</div>
