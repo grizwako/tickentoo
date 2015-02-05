@@ -4,18 +4,6 @@
 //TODO: url generation refactor
 class Inchoo_Tickentoo_Block_Tickets extends Mage_Core_Block_Template
 {
-    //TODO: think, implement
-    public function getCustomerTickets()
-    {
-        $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
-        $websiteId = Mage::app()->getWebsite()->getId();
-        $tickets = Mage::getModel('inchoo_tickentoo/ticket')->getCollection();
-        $tickets->addFieldToFilter('customer_id', $customerId)
-            ->addFieldToFilter('website_id', $websiteId)
-            ->setOrder('closed', $tickets::SORT_ORDER_ASC);
-        return $tickets;
-    }
-
     //TODO: implement
     public function getFormHtmlId()
     {
@@ -51,7 +39,21 @@ class Inchoo_Tickentoo_Block_Tickets extends Mage_Core_Block_Template
             return null;
         }
     }
+    public function getClosedChangeUrl($ticket)
+    {
+        if($ticket->getClosed()){
+            return $this->getOpenUrl($ticket);
+        }
+        return $this->getCloseUrl($ticket);
+    }
 
+    public function getClosedChangeLabel($ticket)
+    {
+        if($ticket->getClosed()){
+            return $this->__('Open ticket');
+        }
+        return $this->__('Close ticket');
+    }
     public function getTicket()
     {
         return Mage::registry('current_ticket');

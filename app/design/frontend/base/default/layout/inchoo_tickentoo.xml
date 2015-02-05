@@ -13,9 +13,7 @@
     <tickentoo_index_index>
         <update handle="customer_account"/>
         <reference name="content">
-            <block type="inchoo_tickentoo/tickets" name="ticketreply" as="ticketreply"
-                   template="inchoo/tickentoo/reply.phtml"/>
-            <block type="inchoo_tickentoo/tickets" name="ticketlist" as="ticketlist"
+            <block type="inchoo_tickentoo/list" name="ticketlist" as="ticketlist"
                    template="inchoo/tickentoo/list.phtml"/>
         </reference>
     </tickentoo_index_index>
@@ -28,4 +26,11 @@
                    template="inchoo/tickentoo/reply.phtml"/>
         </reference>
     </tickentoo_index_view>
+    <tickentoo_index_new>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="inchoo_tickentoo/tickets" name="ticketreply" as="ticketreply"
+                   template="inchoo/tickentoo/reply.phtml"/>
+        </reference>
+    </tickentoo_index_new>
 </layout>

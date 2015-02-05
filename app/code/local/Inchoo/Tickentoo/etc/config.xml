@@ -60,13 +60,14 @@
         </resources>
         <template>
             <email>
-                <new_ticket_notification>
+                <tickentoo_config_tickentoo_email_notifications_notification_email_template>
                     <label>New Ticket Notification</label>
                     <file>inchoo/tickentoo/new_ticket_notification.html</file>
                     <type>html</type>
-                </new_ticket_notification>
+                </tickentoo_config_tickentoo_email_notifications_notification_email_template>
             </email>
         </template>
+
     </global>
     <admin>
         <routers>
@@ -79,4 +80,12 @@
             </adminhtml>
         </routers>
     </admin>
+    <default>
+        <tickentoo_config>
+            <tickentoo_email_notifications>
+                <notify_admin_on_new_ticket>1</notify_admin_on_new_ticket>
+                <notification_email_template>tickentoo_config_tickentoo_email_notifications_notification_email_template</notification_email_template>
+            </tickentoo_email_notifications>
+        </tickentoo_config>
+    </default>
 </config>

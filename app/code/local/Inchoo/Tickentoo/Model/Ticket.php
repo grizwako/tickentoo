@@ -3,6 +3,9 @@
 class Inchoo_Tickentoo_Model_Ticket extends Mage_Core_Model_Abstract
 {
 
+    /** @var  Inchoo_Tickentoo_Model_Resource_Reply_Collection */
+    protected $_replies;
+
     protected function _construct()
     {
         $this->_init('inchoo_tickentoo/ticket');
@@ -32,8 +35,12 @@ class Inchoo_Tickentoo_Model_Ticket extends Mage_Core_Model_Abstract
 
     public function getReplies()
     {
+        if($this->_replies){
+            return $this->_replies;
+        }
         $replies = Mage::getModel('inchoo_tickentoo/reply')->getCollection();
         $replies->addFieldToFilter('ticket_id', $this->getId());
+        $this->_replies = $replies;
         return $replies;
     }
 
@@ -48,7 +55,7 @@ class Inchoo_Tickentoo_Model_Ticket extends Mage_Core_Model_Abstract
         $reply->setMessage($message);
         $reply->setAuthorType($authorType);
         $reply->setAuthorId($authorId);
-
+        $this->_replies->addItem($reply);
         return $reply;
     }
 

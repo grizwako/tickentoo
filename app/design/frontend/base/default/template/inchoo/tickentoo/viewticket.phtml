@@ -1,21 +1,17 @@
 <?php
 $ticket = $this->getTicket();
+?>
+<h2><?php echo $ticket->getSubject(); ?>'</h2>';
 
-echo '<h2>'.$ticket->getSubject().'</h2>';
 
-//TODO:changeClosedStatus ?
-if(!$ticket->getClosed()){
-    echo '<a href="'.$this->getCloseUrl($ticket).'">';
-    echo $this->__('Close ticket');
-    echo '</a>';
-} else {
-    echo '<a href="'.$this->getOpenUrl($ticket).'">';
-    echo $this->__('Open ticket');
-    echo '</a> <h2>Can not reply to closed ticket!</h2>';
-}
+<a href="<?php echo $this->getClosedChangeUrl($ticket); ?>'">
+    <?php echo $this->getClosedChangeLabel($ticket); ?>
+</a>
+<?php if($ticket->getClosed()): ?>
+<h2>Can not reply to closed ticket!</h2>';
+<?php endif; ?>
 
-foreach($ticket->getReplies() as $reply){
-    echo '<div>['.$reply->getCreatedAt().'] '.$reply->getAuthorName().'</div>';
-    echo '<div>--> '.$reply->getMessage().'</div>';
-}
-
+<?php foreach($ticket->getReplies() as $reply): ?>
+    <div>[<?php echo $reply->getCreatedAt(); ?>] <?php echo $reply->getAuthorName(); ?></div>';
+    <div>- <?php echo $reply->getMessage(); ?></div>
+<?php endforeach; ?>

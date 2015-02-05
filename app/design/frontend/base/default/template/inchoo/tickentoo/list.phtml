@@ -1,26 +1,51 @@
-TICKET LIST:
-<br><br>
-
-<div style="max-width: 480px;">
-<?php
-foreach($this->getCustomerTickets() as $ticket){
-    if($this->getCustomerTickets()->getFirstItem() != $ticket){
-        echo '<hr>';
-    }
-
-    //view ticket link
-    echo '<a href="'.$this->getViewUrl($ticket).'">';
-    echo $ticket->getSubject();
-    echo '</a>';
-
-    //only give close link to open tickets
-    //closed tickets, customer must go and read "discussion" before opening
-    if(!$ticket->getClosed()){
-        echo '<a href="'.$this->getCloseUrl($ticket).'"
-            style="float:right;">';
-        echo $this->__('Close ticket');
-        echo '</a>';
-    }
-}
-?>
+<div class="page-title title-buttons">
+    <h1>
+        <?php echo $this->__('My Tickets') ?>
+        <button type="button" style="float: right;" title="<?php echo $this->__('Add New Ticket') ?>" class="button" onclick="window.location='<?php echo $this->getAddNewTicketUrl() ?>';"><span><span><?php echo $this->__('Add New Ticket') ?></span></span></button>
+    </h1>
 </div>
+<?php $_tickets = $this->getTickets(); ?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php echo $this->getPagerHtml(); ?>
+<?php if($_tickets->getSize()): ?>
+    <table class="data-table" id="my-tickets-table">
+        <col width="1" />
+        <col width="1" />
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+        <tr>
+            <th><?php echo $this->__('Ticket #') ?></th>
+            <th><?php echo $this->__('Date') ?></th>
+            <th><?php echo $this->__('Subject') ?></th>
+            <th><?php echo $this->__('Open/Close') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($_tickets as $_ticket): ?>
+            <tr>
+                <td><?php echo $_ticket->getId() ?></td>
+                <td><span class="nobr"><?php echo $this->formatDate($_ticket->getCreatedAt()) ?></span></td>
+                <td><?php echo $this->escapeHtml($_ticket->getSubject()); ?></td>
+                <td class="a-center">
+                <span class="nobr">
+                    <a href="<?php echo $this->getViewUrl($_ticket) ?>">
+                        <?php echo $this->__('View Ticket') ?>
+                    </a>
+                    <span class="separator">|</span>
+                    <a href="<?php echo $this->getClosedChangeUrl($_ticket) ?>" class="link-reorder">
+                        <?php echo $this->getClosedChangeLabel($_ticket) ?>
+                    </a>
+                </span>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-tickets-table');</script>
+    <?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('You did not create any tickets.'); ?></p>
+<?php endif ?>

@@ -20,6 +20,11 @@ class Inchoo_Tickentoo_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    public function newAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
     //TODO: sanitize? -> not here, when outputting?/xss protection in by default?
     //think about refactoring -> extract to models/helpers?
     public function saveAction()
@@ -118,21 +123,32 @@ class Inchoo_Tickentoo_IndexController extends Mage_Core_Controller_Front_Action
     //TODO: refactor this to helper
     protected function sendNotificationEmailToAdmin($ticket, $reply)
     {
-        $tpl = Mage::getModel('core/email_template')->loadDefault('new_ticket_notification');
+        $tpl = Mage::getModel('core/email_template');
+        $tpl->setDesignConfig([
+                'area'  => 'frontend',
+                'store' => Mage::app()->getStore()->getId()
+            ]
+        );
+
         $to = Mage::getStoreConfig('trans_email/ident_support/email');
         //$to = Mage::getStoreConfig('tickentoo_config/tickentoo_email_notifications/notification_email_address');
         $to_name = Mage::getStoreConfig('trans_email/ident_support/name');
         //$sender = Mage::getStoreConfig('trans_email/ident_general/name');
-        $sender = $ticket->getCustomerName();
-        $sender_email = Mage::getStoreConfig('trans_email/ident_general/email');
+        $sender = [
+            'name'  => $ticket->getCustomerName(),
+            'email' => Mage::getStoreConfig('trans_email/ident_general/email')
+        ];
         $vars = [
             'id'            => $ticket->getId(),
             'subject'       => $ticket->getSubject(),
             'message'       => $reply->getMessage(),
-            'customerName'  => $sender
+            'customerName'  => $sender['name']
         ];
-        $tpl->setSenderName($sender);
-        $tpl->setSenderEmail($sender_email);
-        return $tpl->send($to, $to_name, $vars);
+
+        $selectedTemplate = Mage::getStoreConfig(
+            'tickentoo_config/tickentoo_email_notifications/notification_email_template'
+        );
+
+        $tpl->sendTransactional($selectedTemplate, $sender, $to, $to_name, $vars);
     }
 }

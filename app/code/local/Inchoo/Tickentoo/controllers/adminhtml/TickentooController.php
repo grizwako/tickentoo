@@ -57,4 +57,34 @@ class Inchoo_Tickentoo_Adminhtml_TickentooController extends Mage_Adminhtml_Cont
             }
         }
     }
+
+    public function massCloseAction()
+    {
+        $tickets_ids = $this->getRequest()->getParam('ticket_id');
+        if(!is_array($tickets_ids))
+        {
+            Mage::getSingleton('adminhtml/session')->addError(
+                $this->__('Please select tickets!')
+            );
+        } else {
+            try {
+                $ticket = Mage::getModel('inchoo_tickentoo/ticket');
+                $changed = 0;
+                foreach($tickets_ids as $id) {
+                    $ticket->load($id);
+                    if(!$ticket->getClosed()) {
+                        $ticket->setClosed(1);
+                        $ticket->save();
+                        $changed++;
+                    }
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    $this->__('Closed '.$changed.' tickets')
+                );
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
 }

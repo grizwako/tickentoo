@@ -1,5 +1,6 @@
 <?php
-if ($this->getTicket() and $this->getTicket()->getClosed()){
+//Ok to use braces here? Looks cleaner, not sure if going from convention?
+if ($this->getTicket() and $this->getTicket()->getClosed()) {
     $disabled = ' disabled="disabled" ';
 } else {
     $disabled = '';
@@ -10,7 +11,7 @@ if ($this->getTicket() and $this->getTicket()->getClosed()){
         <h2 class="legend"><?php echo $this->getFormTitle(); ?></h2>
         <ul class="form-list">
             <li class="fields">
-                <?php if(!$this->getTicket()){ ?>
+                <?php if(!$this->getTicket()): ?>
                 <div class="field">
                     <label for="subject" class="required">
                         <em>*</em>
@@ -21,7 +22,7 @@ if ($this->getTicket() and $this->getTicket()->getClosed()){
                                class="input-text required-entry" type="text" />
                     </div>
                 </div>
-                <?php } ?>
+                <?php endif; ?>
             </li>
             <li class="fields">
                 <label for="message" class="required">
