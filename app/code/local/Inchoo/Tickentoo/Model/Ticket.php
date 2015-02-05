@@ -55,6 +55,9 @@ class Inchoo_Tickentoo_Model_Ticket extends Mage_Core_Model_Abstract
         $reply->setMessage($message);
         $reply->setAuthorType($authorType);
         $reply->setAuthorId($authorId);
+        if(!isset($this->_replies)){
+            $this->_replies = Mage::getModel('inchoo_tickentoo/reply')->getCollection();
+        }
         $this->_replies->addItem($reply);
         return $reply;
     }
